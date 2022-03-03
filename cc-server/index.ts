@@ -1,3 +1,8 @@
+import * as express from "express";
+import * as fs from "fs";
+
+interface Record {id: number, color:string, seed: number, lines:number, segments: number}
+
 // -------------------------------------------
 // サーバー側機能。
 // ■概要
@@ -5,9 +10,6 @@
 // API( /read, /add, /update, /delete )の4種類を用意しています。
 // -------------------------------------------
 
-// 必要なモジュールを呼び出す
-const express = require("express");
-const fs = require("fs");
 const app = express();
 
 // JSONを有効化
@@ -70,19 +72,19 @@ app.post("/remove", (req, res) => {
 
 /**
  * データ読み出し。JSONファイルからデータを読み込みます。
- * @returns {{id: number, color:string, seed: number, lines:number, segments: number}[]}
+ * @returns レコードオブジェクトの配列
  */
-function read() {
+function read():Record[] {
   const data = fs.readFileSync("db/data.json", "utf8");
-  const originData = JSON.parse(data);
+  const originData = JSON.parse(data) as Record[];
   return originData;
 }
 
 /**
  * データ保存。JSONファイルへデータを書き込みます。
- * @param {{id: number, color:string, seed: number, lines:number, segments: number}[]} data
+ * @param data レコードオブジェクトの配列
  */
-function write(data) {
+function write(data:Record[]):void {
   const json = JSON.stringify(data, null, 2);
   fs.writeFileSync("db/data.json", json, "utf8");
 }
@@ -93,9 +95,9 @@ function write(data) {
 
 /**
  * レコードを追加します。
- * @param record {{id: number, color:string, seed: number, lines:number, segments: number}}
+ * @param record レコードオブジェクト
  */
-function add(record) {
+function add(record:Record):void {
   const dataCurrent = read(); // 読み込み
 
   // IDの重複をチェック
@@ -112,9 +114,9 @@ function add(record) {
 
 /**
  * レコードを更新します。
- * @param record {{id: number, color:string, seed: number, lines:number, segments: number}}
+ * @param record レコードオブジェクト
  */
-function update(record) {
+function update(record:Record):void {
   const dataCurrent = read(); // 読み込み
 
   // IDの重複をチェック
@@ -129,9 +131,9 @@ function update(record) {
 
 /**
  * 該当するレコードを削除します。
- * @param recordId {number}
+ * @param recordId レコードID
  */
-function remove(recordId) {
+function remove(recordId:number):void {
   const dataCurrent = read(); // 読み込み
   // 該当する項目を削除（一致するIDはフィルターで省く）
   const dataNext = dataCurrent.filter((item) => item.id !== recordId);
