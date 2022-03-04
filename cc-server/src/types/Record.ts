@@ -5,3 +5,7 @@ export interface Record {
   lines: number;
   segments: number;
 }
+
+export const isRecordList = (object: unknown): object is Record[] => {
+  return Array.isArray(object);
+};

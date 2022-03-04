@@ -1,8 +1,9 @@
 import * as express from "express";
-import {read} from "./apis/read";
-import {add} from "./apis/add";
-import {update} from "./apis/update";
-import {remove} from "./apis/remove";
+import { read } from "./apis/read";
+import { add } from "./apis/add";
+import { update } from "./apis/update";
+import { remove } from "./apis/remove";
+import { isLogicErrorObject } from "./types/LogicErrorObject";
 
 // -------------------------------------------
 // サーバー側機能。
@@ -40,7 +41,11 @@ app.listen(8080, () => {
 // リクエスト引数はありません。
 // レスポンス戻り値の型は、{id: number, color:string, seed: number, lines:number, segments: number}[] です。
 app.get("/read", (req, res) => {
-  res.send(read());
+  const data = read();
+  if (isLogicErrorObject(data)) {
+    res.statusCode = 400;
+  }
+  res.send(data);
 });
 
 // 新しいレコードを追加します

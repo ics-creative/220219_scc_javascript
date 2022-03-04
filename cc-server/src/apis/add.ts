@@ -1,19 +1,26 @@
 import { Record } from "../types/Record";
 import { read } from "./read";
 import { write } from "./write";
+import {
+  isLogicErrorObject,
+  LogicErrorObject,
+} from "../types/LogicErrorObject";
 
 /**
  * レコードを追加します。
  * @param record レコードオブジェクト
  */
-export const add = (record: Record): void => {
+export const add = (record: Record): void | LogicErrorObject => {
   const dataCurrent = read(); // 読み込み
+
+  if (isLogicErrorObject(dataCurrent)) {
+    return dataCurrent;
+  }
 
   // IDの重複をチェック
   const duplicateRecord = dataCurrent.find((item) => item.id === record.id);
   if (duplicateRecord) {
-    console.error("重複するデータがあったので無視します。");
-    return;
+    return { message: "重複するデータがあったので無視します。" };
   }
 
   // データの末尾に新しいレコードを追加
