@@ -1,11 +1,11 @@
-import {Record} from "../types/Record";
+import { Record } from "../types/Record";
 
 /**
  * 更新用APIへ更新したいレコードを飛ばします。
  * @param record
  * @return
  */
-export const apiUpdate = async (record:Record):Promise<void> => {
+export const apiUpdate = async (record: Record): Promise<void> => {
   await fetch("http://localhost:8080/update", {
     headers: {
       "Content-Type": "application/json",

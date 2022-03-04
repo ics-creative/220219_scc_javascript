@@ -1,7 +1,7 @@
-import {Random} from "../math/Random";
-import {makeNoise2D} from "fast-simplex-noise";
-import {useEffect, useRef, VFC} from "react";
-import {Record} from "../types/Record";
+import { Random } from "../math/Random";
+import { makeNoise2D } from "fast-simplex-noise";
+import { useEffect, useRef, VFC } from "react";
+import { Record } from "../types/Record";
 
 // ----------------------------------------
 // プログラミングアートのビジュアライズコンポーネントです。
@@ -13,28 +13,24 @@ import {Record} from "../types/Record";
 // ----------------------------------------
 
 const Visualization: VFC<{
-  record: Record
+  record: Record;
 }> = (props) => {
-
-
   // キャンバスの定義
   const refCanvas = useRef<HTMLCanvasElement>(null);
-
 
   // マウントされたとき
   useEffect(() => {
     if (props.record) {
-      draw()// 描画
+      draw(); // 描画
     }
-  }, [])
+  }, []);
 
   // 外部から props を更新されたとき
   useEffect(() => {
     if (props.record) {
-      draw()// 描画
+      draw(); // 描画
     }
-  }, [props.record])
-
+  }, [props.record]);
 
   // キャンバスのサイズ定義
   const stageW = 640; // 幅
@@ -57,8 +53,7 @@ const Visualization: VFC<{
     const noise2d = makeNoise2D(() => random.next()); // ノイズ
 
     // 必要な数値を取得
-    const {color, seed, lines, segments} = props.record;
-
+    const { color, seed, lines, segments } = props.record;
 
     // ----------------------------------------------
     // 波打つ表現の描画処理は以下の記事の方法を利用
@@ -96,19 +91,13 @@ const Visualization: VFC<{
       });
       context.stroke();
     });
-
   };
 
-  return <div>
-    <canvas ref={refCanvas} width={stageW} height={stageH}/>
-  </div>
+  return (
+    <div>
+      <canvas ref={refCanvas} width={stageW} height={stageH} />
+    </div>
+  );
+};
 
-}
-
-export default Visualization
-
-
-
-
-
-
+export default Visualization;

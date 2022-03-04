@@ -3,3 +3,6 @@ node_modules
 .idea
 .DS_Store
 /cc-server/yarn.lock
+/cc-front-react/yarn.lock
+/cc-front-react/package-lock.json
+/cc-server/package-lock.json

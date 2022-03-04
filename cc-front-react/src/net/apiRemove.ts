@@ -1,11 +1,11 @@
-import {Record} from "../types/Record";
+import { Record } from "../types/Record";
 
 /**
  * 削除APIへ削除したいレコードを飛ばします。
  * @param record
  * @return
  */
-export async function apiRemove(record:Record):Promise<void> {
+export async function apiRemove(record: Record): Promise<void> {
   await fetch("http://localhost:8080/remove", {
     headers: {
       "Content-Type": "application/json",

@@ -4,10 +4,10 @@
  * （このクラスは本題ではないので、スルーください）
  */
 export class Random {
-  private x:number
-  private y:number
-  private z:number
-  private w:number
+  private x: number;
+  private y: number;
+  private z: number;
+  private w: number;
 
   constructor(seed = 88675123) {
     this.x = 123456789;
