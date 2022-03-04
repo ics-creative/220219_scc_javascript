@@ -7,9 +7,11 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
+    "noImplicitAny": true, /* anyを報告する。 */
+    "noUnusedLocals": true, /* 未使用のローカル変数を報告 */
+    "noImplicitReturns": true, /* 関数内のすべてのコードパスが値を返さない場合、エラーを報告する。 */
+    "noFallthroughCasesInSwitch": true, /* switchステートメントで通らないケースのエラーを報告する。 */
+    "noUnusedParameters": false,  /* 未使用のパラメータに関するエラーを報告する。 */
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "moduleResolution": "Node",

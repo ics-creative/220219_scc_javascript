@@ -1,7 +1,8 @@
 import * as express from "express";
-import * as fs from "fs";
-
-interface Record {id: number, color:string, seed: number, lines:number, segments: number}
+import {read} from "./apis/read";
+import {add} from "./apis/add";
+import {update} from "./apis/update";
+import {remove} from "./apis/remove";
 
 // -------------------------------------------
 // サーバー側機能。
@@ -15,7 +16,7 @@ const app = express();
 // JSONを有効化
 app.use(express.json());
 // クロスドメインをスルーするよう対策
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   // ローカルでの開発時のネットワークトラブルを避けるため
   // クロスドメインを解放しています（本番環境だとオススメしません）。
   res.header("Access-Control-Allow-Origin", "*");
@@ -65,77 +66,3 @@ app.post("/remove", (req, res) => {
   remove(req.body.id); // 該当するIDを参照します。
   res.send("ok");
 });
-
-// -------------------------------------------
-// JSONファイル管理
-// -------------------------------------------
-
-/**
- * データ読み出し。JSONファイルからデータを読み込みます。
- * @returns レコードオブジェクトの配列
- */
-function read():Record[] {
-  const data = fs.readFileSync("db/data.json", "utf8");
-  const originData = JSON.parse(data) as Record[];
-  return originData;
-}
-
-/**
- * データ保存。JSONファイルへデータを書き込みます。
- * @param data レコードオブジェクトの配列
- */
-function write(data:Record[]):void {
-  const json = JSON.stringify(data, null, 2);
-  fs.writeFileSync("db/data.json", json, "utf8");
-}
-
-// -------------------------------------------
-// JSONファイル管理
-// -------------------------------------------
-
-/**
- * レコードを追加します。
- * @param record レコードオブジェクト
- */
-function add(record:Record):void {
-  const dataCurrent = read(); // 読み込み
-
-  // IDの重複をチェック
-  const duplicateRecord = dataCurrent.find((item) => item.id === record.id);
-  if (duplicateRecord) {
-    console.error("重複するデータがあったので無視します。");
-    return;
-  }
-
-  // データの末尾に新しいレコードを追加
-  const dataNext = [...dataCurrent, record];
-  write(dataNext); // 書き込み
-}
-
-/**
- * レコードを更新します。
- * @param record レコードオブジェクト
- */
-function update(record:Record):void {
-  const dataCurrent = read(); // 読み込み
-
-  // IDの重複をチェック
-  const duplicateRecord = dataCurrent.find((item) => item.id === record.id);
-  if (duplicateRecord) {
-    // 重複する項目の各フィールドをコピー
-    Object.assign(duplicateRecord, record);
-  }
-
-  write(dataCurrent); // 書き込み
-}
-
-/**
- * 該当するレコードを削除します。
- * @param recordId レコードID
- */
-function remove(recordId:number):void {
-  const dataCurrent = read(); // 読み込み
-  // 該当する項目を削除（一致するIDはフィルターで省く）
-  const dataNext = dataCurrent.filter((item) => item.id !== recordId);
-  write(dataNext); // 書き込み
-}
