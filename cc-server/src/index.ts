@@ -41,18 +41,21 @@ app.listen(8080, () => {
 // リクエスト引数はありません。
 // レスポンス戻り値の型は、{id: number, color:string, seed: number, lines:number, segments: number}[] です。
 app.get("/read", (req, res) => {
-  const data = read();
-  if (isLogicErrorObject(data)) {
+  const result = read();
+  if (isLogicErrorObject(result)) {
     res.statusCode = 400;
   }
-  res.send(data);
+  res.send(result);
 });
 
 // 新しいレコードを追加します
 // リクエスト引数として {id: number, color:string, seed: number, lines:number, segments: number} のデータを参照します。
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
 app.post("/add", (req, res) => {
-  add(req.body);
+  const result = add(req.body);
+  if (isLogicErrorObject(result)) {
+    res.statusCode = 400;
+  }
   res.send("ok");
 });
 
@@ -60,14 +63,25 @@ app.post("/add", (req, res) => {
 // リクエスト引数として {id: number, color:string, seed: number, lines:number, segments: number} のデータを参照します
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
 app.post("/update", (req, res) => {
-  update(req.body);
-  res.send("ok");
+  const result = update(req.body);
+
+  if (isLogicErrorObject(result)) {
+    res.statusCode = 400;
+    res.send(result);
+  } else {
+    res.send("ok");
+  }
 });
 
 // レコードを削除します
 // リクエスト引数として {id: number} のデータを参照します。
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
 app.post("/remove", (req, res) => {
-  remove(req.body.id); // 該当するIDを参照します。
-  res.send("ok");
+  const result = remove(req.body.id); // 該当するIDを参照します。
+  if (isLogicErrorObject(result)) {
+    res.statusCode = 400;
+    res.send(result);
+  } else {
+    res.send("ok");
+  }
 });

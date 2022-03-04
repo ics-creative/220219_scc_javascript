@@ -5,12 +5,19 @@ import {
   isLogicErrorObject,
   LogicErrorObject,
 } from "../types/LogicErrorObject";
+import { RecordIo } from "../io/RecordIo";
 
 /**
  * レコードを追加します。
  * @param record レコードオブジェクト
  */
 export const add = (record: Record): void | LogicErrorObject => {
+  // 引数のバリデーション
+  const isValid = RecordIo.is(record);
+  if (!isValid) {
+    return { message: "APIのパラメーターの型が誤っています。" };
+  }
+
   const dataCurrent = read(); // 読み込み
 
   if (isLogicErrorObject(dataCurrent)) {

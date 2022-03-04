@@ -1,11 +1,23 @@
+import * as fs from "fs";
+import { LogicErrorObject } from "../types/LogicErrorObject";
 import { Record } from "../types/Record";
-import fs from "fs";
+import { RecordListIo } from "../io/RecordListIo";
 
 /**
  * データ保存。JSONファイルへデータを書き込みます。
  * @param data レコードオブジェクトの配列
  */
-export const write = (data: Record[]): void => {
+export const write = (data: Record[]): void | LogicErrorObject => {
+  const isValid = RecordListIo.is(data);
+  if (!isValid) {
+    return { message: "APIのパラメーターの型が誤っています。" };
+  }
+
   const json = JSON.stringify(data, null, 2);
-  fs.writeFileSync("db/data.json", json, "utf8");
+
+  try {
+    fs.writeFileSync("db/data.json", json, "utf8");
+  } catch (error) {
+    return { message: "ファイルの書き込みに失敗しました" };
+  }
 };

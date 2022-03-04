@@ -1,19 +1,19 @@
 import * as fs from "fs";
-import {Record} from "../types/Record";
-import {LogicErrorObject} from "../types/LogicErrorObject";
+import { Record } from "../types/Record";
+import { LogicErrorObject } from "../types/LogicErrorObject";
+import { RecordListIo } from "../io/RecordListIo";
 
 /**
  * データ読み出し。JSONファイルからデータを読み込みます。
  * @returns レコードオブジェクトの配列
  */
 export const read = (): Record[] | LogicErrorObject => {
-
   let data: string;
   let originData: Record[];
   try {
     data = fs.readFileSync("db/data.json", "utf8");
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return {
       message: "データベースであるJSONファイルを開けませんでした。",
     };
@@ -21,13 +21,13 @@ export const read = (): Record[] | LogicErrorObject => {
   try {
     originData = JSON.parse(data) as Record[];
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return {
       message: "データベースであるJSONをパースできませんでした。",
     };
   }
 
-  if (!Array.isArray(originData)) {
+  if (!RecordListIo.is(originData)) {
     return {
       message: "データベースであるJSONオブジェクトが形式的に壊れています。",
     };

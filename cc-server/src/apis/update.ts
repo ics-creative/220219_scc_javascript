@@ -5,12 +5,17 @@ import {
   isLogicErrorObject,
   LogicErrorObject,
 } from "../types/LogicErrorObject";
+import { RecordIo } from "../io/RecordIo";
 
 /**
  * レコードを更新します。
  * @param record レコードオブジェクト
  */
 export const update = (record: Record): void | LogicErrorObject => {
+  if (!RecordIo.is(record)) {
+    return { message: "APIの引数の型が誤っています。" };
+  }
+
   const dataCurrent = read(); // 読み込み
 
   if (isLogicErrorObject(dataCurrent)) {
@@ -24,5 +29,8 @@ export const update = (record: Record): void | LogicErrorObject => {
     Object.assign(duplicateRecord, record);
   }
 
-  write(dataCurrent); // 書き込み
+  const result = write(dataCurrent); // 書き込み
+  if (isLogicErrorObject(result)) {
+    return result;
+  }
 };

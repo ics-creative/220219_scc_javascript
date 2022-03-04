@@ -10,6 +10,10 @@ import {
  * @param recordId レコードID
  */
 export const remove = (recordId: number): void | LogicErrorObject => {
+  if (typeof recordId !== "number") {
+    return { message: "APIの引数の型が誤っています。" };
+  }
+
   const dataCurrent = read(); // 読み込み
 
   if (isLogicErrorObject(dataCurrent)) {
@@ -18,5 +22,9 @@ export const remove = (recordId: number): void | LogicErrorObject => {
 
   // 該当する項目を削除（一致するIDはフィルターで省く）
   const dataNext = dataCurrent.filter((item) => item.id !== recordId);
-  write(dataNext); // 書き込み
+  const result = write(dataNext); // 書き込み
+
+  if (isLogicErrorObject(result)) {
+    return result;
+  }
 };
