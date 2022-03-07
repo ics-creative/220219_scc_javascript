@@ -59,11 +59,10 @@ app.post("/add", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = add(req.body);
-
   if (isLogicErrorObject(result)) {
     res.statusCode = 400;
   }
-  res.send("ok");
+  res.send(result);
 });
 
 // レコードを更新します
@@ -85,7 +84,7 @@ app.post("/update", async (req, res) => {
 // レコードを削除します
 // リクエスト引数として {id: number} のデータを参照します。
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
-app.post("/remove", async (req, res) => {
+app.delete("/remove", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = remove(req.body.id); // 該当するIDを参照します。

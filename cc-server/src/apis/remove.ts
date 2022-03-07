@@ -19,6 +19,11 @@ export const remove = (recordId: number): void | LogicErrorObject => {
   if (isLogicErrorObject(dataCurrent)) {
     return dataCurrent;
   }
+  // 該当する項目が存在するか調べる
+  const hasItem = dataCurrent.find((item) => item.id === recordId);
+  if (!hasItem) {
+    return { message: "該当項目はJSONデータベースに存在しませんでした。" };
+  }
 
   // 該当する項目を削除（一致するIDはフィルターで省く）
   const dataNext = dataCurrent.filter((item) => item.id !== recordId);

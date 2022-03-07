@@ -21,8 +21,12 @@ const App: VFC = () => {
   // APIからデータを取得
   const updateList = async () => {
     setIsLoading(true);
-    const json = await apiRead();
-    setList(json);
+    const result = await apiRead();
+    if (result.ok) {
+      setList(result.data);
+    } else {
+      alert(result.data.message);
+    }
     setSelectedItem(null);
     setIsLoading(false);
   };
@@ -37,7 +41,10 @@ const App: VFC = () => {
       segments: 10,
       lines: 10,
     };
-    await apiAdd(o); // 追加
+    const result = await apiAdd(o); // 追加
+    if (result.ok === false) {
+      alert(result.data.message);
+    }
     await updateList(); // 一覧を更新
     setIsLoading(false);
   };
@@ -45,8 +52,13 @@ const App: VFC = () => {
   // 保存時の処理
   const onUpdate = async (o: Record) => {
     setIsLoading(true);
-    await apiUpdate(o); // 保存
-    await updateList(); // 一覧を更新
+    const result = await apiUpdate(o); // 保存
+    if (result.ok) {
+      await updateList(); // 一覧を更新
+    } else {
+      alert(result.data.message);
+    }
+
     setIsLoading(false);
   };
 
@@ -57,7 +69,10 @@ const App: VFC = () => {
   // 削除ボタン押下時の処理
   const onDelete = async (o: Record) => {
     setIsLoading(true);
-    await apiRemove(o); // 削除
+    const result = await apiRemove(o); // 削除
+    if (result.ok === false) {
+      alert(result.data.message);
+    }
     await updateList(); // 一覧を更新
     setSelectedItem(null);
     setIsLoading(false);
@@ -73,7 +88,7 @@ const App: VFC = () => {
 
       <div className="container">
         {list.map((record) => (
-          <div className="thumb">
+          <div className="thumb" key={record.id}>
             <Visualization record={record} />
             <div>
               <button
