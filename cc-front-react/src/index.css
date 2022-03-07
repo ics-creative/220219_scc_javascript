@@ -12,3 +12,29 @@
   width: 100%;
   height: auto;
 }
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgb(0 0 0 / 0.25);
+  display: grid;
+  place-items: center;
+}
+.loading-center {
+  width: 128px;
+  height: 128px;
+  border-radius: 16px;
+  background-color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.loading-center-thumb {
+  width: 52px;
+  height: 52px;
+  background-image: url("./assets/preloader.webp");
+  background-size: contain;
+}

@@ -103,7 +103,6 @@ const EditView: VFC<{
       </div>
 
       <div>
-        ¬
         <label>
           <input
             type="range"

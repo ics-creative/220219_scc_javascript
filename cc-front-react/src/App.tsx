@@ -10,6 +10,7 @@ import { Record } from "./types/Record";
 const App: VFC = () => {
   const [list, setList] = useState<Record[]>([]); // 一覧表示
   const [selectedItem, setSelectedItem] = useState<Record | null>(null); // 選択された項目
+  const [isLoading, setIsLoading] = useState(false);
 
   // マウントされたとき（起動したとき）
   useEffect(() => {
@@ -19,13 +20,16 @@ const App: VFC = () => {
 
   // APIからデータを取得
   const updateList = async () => {
+    setIsLoading(true);
     const json = await apiRead();
     setList(json);
     setSelectedItem(null);
+    setIsLoading(false);
   };
 
   // 追加ボタン押下時の処理
   const onAdd = async () => {
+    setIsLoading(true);
     const o = {
       id: Date.now(),
       color: "#FF0000",
@@ -35,12 +39,15 @@ const App: VFC = () => {
     };
     await apiAdd(o); // 追加
     await updateList(); // 一覧を更新
+    setIsLoading(false);
   };
 
   // 保存時の処理
   const onUpdate = async (o: Record) => {
+    setIsLoading(true);
     await apiUpdate(o); // 保存
     await updateList(); // 一覧を更新
+    setIsLoading(false);
   };
 
   // 選択時（編集ボタン押下時）の処理
@@ -49,9 +56,11 @@ const App: VFC = () => {
   };
   // 削除ボタン押下時の処理
   const onDelete = async (o: Record) => {
+    setIsLoading(true);
     await apiRemove(o); // 削除
     await updateList(); // 一覧を更新
     setSelectedItem(null);
+    setIsLoading(false);
   };
 
   return (
@@ -88,6 +97,14 @@ const App: VFC = () => {
 
       {selectedItem != null && (
         <EditView record={selectedItem} update={onUpdate} />
+      )}
+
+      {isLoading && (
+        <div className="loading">
+          <div className="loading-center">
+            <div className="loading-center-thumb"></div>
+          </div>
+        </div>
       )}
     </div>
   );
