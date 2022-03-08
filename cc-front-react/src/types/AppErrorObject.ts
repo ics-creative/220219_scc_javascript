@@ -1,6 +1,7 @@
 /**
  * エラーとして扱うオブジェクトです。
  */
-export interface LogicErrorObject {
+export interface AppErrorObject {
+  /** エラー発生時の文言です。 */
   message: string;
 }

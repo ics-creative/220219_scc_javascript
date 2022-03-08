@@ -1,13 +1,13 @@
 import * as fs from "fs";
 import { Record } from "../types/Record";
-import { LogicErrorObject } from "../types/LogicErrorObject";
+import { AppErrorObject } from "../types/AppErrorObject";
 import { RecordListIo } from "../io/RecordListIo";
 
 /**
  * データ読み出し。JSONファイルからデータを読み込みます。
  * @returns レコードオブジェクトの配列
  */
-export const read = (): Record[] | LogicErrorObject => {
+export const read = (): Record[] | AppErrorObject => {
   let data: string;
   let originData: Record[];
   try {

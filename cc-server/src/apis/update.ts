@@ -1,24 +1,22 @@
 import { Record } from "../types/Record";
 import { read } from "./read";
 import { write } from "./write";
-import {
-  isLogicErrorObject,
-  LogicErrorObject,
-} from "../types/LogicErrorObject";
+import { AppErrorObject } from "../types/AppErrorObject";
 import { RecordIo } from "../io/RecordIo";
+import { isAppErrorObject } from "../io/IsAppErrorObject";
 
 /**
  * レコードを更新します。
  * @param record レコードオブジェクト
  */
-export const update = (record: Record): void | LogicErrorObject => {
+export const update = (record: Record): void | AppErrorObject => {
   if (!RecordIo.is(record)) {
     return { message: "APIの引数の型が誤っています。" };
   }
 
   const dataCurrent = read(); // 読み込み
 
-  if (isLogicErrorObject(dataCurrent)) {
+  if (isAppErrorObject(dataCurrent)) {
     return dataCurrent;
   }
 
@@ -30,7 +28,7 @@ export const update = (record: Record): void | LogicErrorObject => {
   }
 
   const result = write(dataCurrent); // 書き込み
-  if (isLogicErrorObject(result)) {
+  if (isAppErrorObject(result)) {
     return result;
   }
 };

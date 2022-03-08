@@ -1,10 +1,10 @@
 import { useEffect, useState, VFC } from "react";
 import EditView from "./components/EditView";
 import Visualization from "./components/Visualization";
-import { apiAdd } from "./net/apiAdd";
-import { apiRemove } from "./net/apiRemove";
-import { apiUpdate } from "./net/apiUpdate";
-import { apiRead } from "./net/apiRead";
+import { apiAdd } from "./net/fetch/apiAdd";
+import { apiRemove } from "./net/fetch/apiRemove";
+import { apiRead } from "./net/fetch/apiRead";
+import { apiUpdate } from "./net/fetch/apiUpdate";
 import { Record } from "./types/Record";
 
 const App: VFC = () => {

@@ -3,8 +3,8 @@ import { read } from "./apis/read";
 import { add } from "./apis/add";
 import { update } from "./apis/update";
 import { remove } from "./apis/remove";
-import { isLogicErrorObject } from "./types/LogicErrorObject";
 import { wait } from "./debug/wait";
+import { isAppErrorObject } from "./io/IsAppErrorObject";
 
 // -------------------------------------------
 // サーバー側機能。
@@ -31,7 +31,13 @@ app.use((req, res, next) => {
 
 // 8080 ポートでサーバーを起動
 app.listen(8080, () => {
-  console.log("http://localhost:8080/read へアクセスしてみましょう");
+  console.log(
+    `ローカルサーバーが起動しました。以下のURLを利用できます。
+http://localhost:8080/read (GET メソッド)
+http://localhost:8080/add (POST メソッド)
+http://localhost:8080/update (POST メソッド)
+http://localhost:8080/remove (POST メソッド)`
+  );
 });
 
 // -------------------------------------------
@@ -46,7 +52,7 @@ app.get("/read", async (req, res) => {
 
   const result = read();
 
-  if (isLogicErrorObject(result)) {
+  if (isAppErrorObject(result)) {
     res.statusCode = 400;
   }
   res.send(result);
@@ -59,7 +65,7 @@ app.post("/add", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = add(req.body);
-  if (isLogicErrorObject(result)) {
+  if (isAppErrorObject(result)) {
     res.statusCode = 400;
   }
   res.send(result);
@@ -73,7 +79,7 @@ app.post("/update", async (req, res) => {
 
   const result = update(req.body);
 
-  if (isLogicErrorObject(result)) {
+  if (isAppErrorObject(result)) {
     res.statusCode = 400;
     res.send(result);
   } else {
@@ -84,11 +90,11 @@ app.post("/update", async (req, res) => {
 // レコードを削除します
 // リクエスト引数として {id: number} のデータを参照します。
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
-app.delete("/remove", async (req, res) => {
+app.post("/remove", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = remove(req.body.id); // 該当するIDを参照します。
-  if (isLogicErrorObject(result)) {
+  if (isAppErrorObject(result)) {
     res.statusCode = 400;
     res.send(result);
   } else {

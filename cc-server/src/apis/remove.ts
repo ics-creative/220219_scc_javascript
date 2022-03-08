@@ -1,22 +1,20 @@
 import { read } from "./read";
 import { write } from "./write";
-import {
-  isLogicErrorObject,
-  LogicErrorObject,
-} from "../types/LogicErrorObject";
+import { AppErrorObject } from "../types/AppErrorObject";
+import { isAppErrorObject } from "../io/IsAppErrorObject";
 
 /**
  * 該当するレコードを削除します。
  * @param recordId レコードID
  */
-export const remove = (recordId: number): void | LogicErrorObject => {
+export const remove = (recordId: number): void | AppErrorObject => {
   if (typeof recordId !== "number") {
     return { message: "APIの引数の型が誤っています。" };
   }
 
   const dataCurrent = read(); // 読み込み
 
-  if (isLogicErrorObject(dataCurrent)) {
+  if (isAppErrorObject(dataCurrent)) {
     return dataCurrent;
   }
   // 該当する項目が存在するか調べる
@@ -29,7 +27,7 @@ export const remove = (recordId: number): void | LogicErrorObject => {
   const dataNext = dataCurrent.filter((item) => item.id !== recordId);
   const result = write(dataNext); // 書き込み
 
-  if (isLogicErrorObject(result)) {
+  if (isAppErrorObject(result)) {
     return result;
   }
 };

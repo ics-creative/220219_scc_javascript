@@ -1,17 +1,15 @@
 import { Record } from "../types/Record";
 import { read } from "./read";
 import { write } from "./write";
-import {
-  isLogicErrorObject,
-  LogicErrorObject,
-} from "../types/LogicErrorObject";
+import { AppErrorObject } from "../types/AppErrorObject";
 import { RecordIo } from "../io/RecordIo";
+import { isAppErrorObject } from "../io/IsAppErrorObject";
 
 /**
  * レコードを追加します。
  * @param record レコードオブジェクト
  */
-export const add = (record: Record): void | LogicErrorObject => {
+export const add = (record: Record): void | AppErrorObject => {
   // 引数のバリデーション
   const isValid = RecordIo.is(record);
   if (!isValid) {
@@ -20,7 +18,7 @@ export const add = (record: Record): void | LogicErrorObject => {
 
   const dataCurrent = read(); // 読み込み
 
-  if (isLogicErrorObject(dataCurrent)) {
+  if (isAppErrorObject(dataCurrent)) {
     return dataCurrent;
   }
 
