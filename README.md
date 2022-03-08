@@ -1,11 +1,10 @@
-このサンプルファイルは、[クリエイティブキャンプonline](https://ezokitchen.co.jp/sccol/)（2022年2月19日開催）で発表した
-で発表した「ウェブ制作で間違えないJavaScriptのライブラリ選定」のライブコーディングのデモです。
+このサンプルファイルは、ネットワークのエラーハンドリングを説明するための、ライブコーディングのデモです。
 
 以下の開発環境を用いて、ウェブサーバーとフロントエンドの2つを構築する流れとなっています。
 
-- フロント側 : `cc-front`フォルダー
+- フロント側 : `cc-front-react`フォルダー
   - [Vite](https://ja.vitejs.dev/)
-  - [Vue\.js](https://jp.vuejs.org/index.html)
+  - [React](https://reactjs.org/)
 - サーバー側 : `cc-server" フォルダー
   - [Express](https://expressjs.com/ja/)
 
@@ -14,7 +13,7 @@
 各フォルダーにアクセスし、以下のコマンドを実行します。
 
 ```bash
-cd cc-front
+cd cc-front-react
 npm run dev
 ```
 
