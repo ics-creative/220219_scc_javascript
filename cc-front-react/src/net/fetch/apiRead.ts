@@ -9,7 +9,7 @@ import { AppErrorObject } from "../../types/AppErrorObject";
 export const apiRead = async (): Promise<
   { ok: true; data: Record[] } | { ok: false; data: AppErrorObject }
 > => {
-  const result = await fetch("/read").catch((reason) => {
+  const result = await fetch("/api/read").catch((reason) => {
     // ネットワークエラーのハンドリング
     console.error(reason);
     return undefined;

@@ -78,10 +78,10 @@ const App: VFC = () => {
     setIsLoading(false);
   };
 
+
   return (
     <div>
       <h1>プログラミングアート投稿サービス</h1>
-
       <p>
         <button onClick={onAdd}>新しいアートを追加</button>
       </p>

@@ -10,7 +10,7 @@ import { AppErrorObject } from "../../types/AppErrorObject";
 export async function apiRemove(
   record: Record
 ): Promise<{ ok: true } | { ok: false; data: AppErrorObject }> {
-  const result = await fetch("/remove", {
+  const result = await fetch("/api/remove", {
     headers: {
       "Content-Type": "application/json",
     },

@@ -13,7 +13,7 @@ export const apiUpdate = async (
   record: Record
 ): Promise<{ ok: true } | { ok: false; data: AppErrorObject }> => {
   try {
-    await axios.post("/update", record);
+    await axios.post("/api/update", record);
 
     // 通信の成功時
     return { ok: true };

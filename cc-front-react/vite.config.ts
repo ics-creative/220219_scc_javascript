@@ -7,10 +7,7 @@ export default defineConfig({
 
   server: {
     proxy: {
-      '/read': 'http://localhost:8080',
-      '/add': 'http://localhost:8080',
-      '/remove': 'http://localhost:8080',
-      '/update': 'http://localhost:8080',
+      '/api': 'http://localhost:8080',
     }
   }
 })

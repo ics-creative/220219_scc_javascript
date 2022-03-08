@@ -13,7 +13,7 @@ export async function apiRemove(
   record: Record
 ): Promise<{ ok: true } | { ok: false; data: AppErrorObject }> {
   try {
-    await axios.post("/remove", record);
+    await axios.post("/api/remove", record);
 
     // 通信の成功時
     return { ok: true };

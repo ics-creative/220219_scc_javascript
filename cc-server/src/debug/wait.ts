@@ -1,5 +1,5 @@
 /** 待機時間（検証用） */
-const WAIT_MSEC = 1000;
+const WAIT_MSEC = 50;
 
 /**
  * 検証用機能です。

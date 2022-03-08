@@ -10,7 +10,7 @@ import { AppErrorObject } from "../../types/AppErrorObject";
 export const apiUpdate = async (
   record: Record
 ): Promise<{ ok: true } | { ok: false; data: AppErrorObject }> => {
-  const result = await fetch("/update", {
+  const result = await fetch("/api/update", {
     headers: {
       "Content-Type": "application/json",
     },

@@ -33,10 +33,10 @@ app.use((req, res, next) => {
 app.listen(8080, () => {
   console.log(
     `ローカルサーバーが起動しました。以下のURLを利用できます。
-http://localhost:8080/read (GET メソッド)
-http://localhost:8080/add (POST メソッド)
-http://localhost:8080/update (POST メソッド)
-http://localhost:8080/remove (POST メソッド)`
+http://localhost:8080/api/read (GET メソッド)
+http://localhost:8080/api/add (POST メソッド)
+http://localhost:8080/api/update (POST メソッド)
+http://localhost:8080/api/remove (POST メソッド)`
   );
 });
 
@@ -47,7 +47,7 @@ http://localhost:8080/remove (POST メソッド)`
 // 登録されたレコード結果の一覧を返却します。
 // リクエスト引数はありません。
 // レスポンス戻り値の型は、{id: number, color:string, seed: number, lines:number, segments: number}[] です。
-app.get("/read", async (req, res) => {
+app.get("/api/read", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = read();
@@ -61,7 +61,7 @@ app.get("/read", async (req, res) => {
 // 新しいレコードを追加します
 // リクエスト引数として {id: number, color:string, seed: number, lines:number, segments: number} のデータを参照します。
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
-app.post("/add", async (req, res) => {
+app.post("/api/add", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = add(req.body);
@@ -74,7 +74,7 @@ app.post("/add", async (req, res) => {
 // レコードを更新します
 // リクエスト引数として {id: number, color:string, seed: number, lines:number, segments: number} のデータを参照します
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
-app.post("/update", async (req, res) => {
+app.post("/api/update", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = update(req.body);
@@ -90,7 +90,7 @@ app.post("/update", async (req, res) => {
 // レコードを削除します
 // リクエスト引数として {id: number} のデータを参照します。
 // レスポンス戻り値の型は、"ok" です（参照することを意図していません）。
-app.post("/remove", async (req, res) => {
+app.post("/api/remove", async (req, res) => {
   await wait(); // デバッグのためのコード
 
   const result = remove(req.body.id); // 該当するIDを参照します。
